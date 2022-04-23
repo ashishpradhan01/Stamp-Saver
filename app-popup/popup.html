@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stamp Saver</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <input type="radio" id="tab1" name="tab" checked>
+        <label for="tab1"><i class="fa fa-code"></i>Time Stamp</label>
+        <input type="radio" id="tab2" name="tab">
+        <label for="tab2"><i class="fa fa-history"></i> Saved Video</label>
+    
+        <div class="content-container">
+            <div class="content" id="c1">
+                <div class="loading-data">
+                    <span class="loading-error">!!! Try again !!!</span>
+                    <button class="getdata-btn" id="getdatabtn">Get Data</button>
+                </div>
+                <div class="tab1-content">
+                    <div class="top-group">
+                        <div class="video-img">
+                            <img src="https://via.placeholder.com/320x180.png?text=No+Image" id="v_image"/>
+                        </div>
+                        <div class="video-time">
+                            <div class="video-length">
+                                <span class="custom-title">Total Length:</span>
+                                <span class="custom-data" id="v_length"></span>
+                            </div>
+                            <div class="video-length">
+                                <span class="custom-title">Time Stamp:</span>
+                                <span class="custom-data" id="v_stamp"></span>
+                            </div>
+                            <div class="video-length">
+                                <span class="custom-title">Date:</span>
+                                <span class="custom-data" id="v_date"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mid-group">
+                        <div class="top-spacer">
+                            <span class="custom-title">Title:</span>
+                            <span class="custom-data" id="v_title"></span>
+                        </div>
+                        <div class="top-spacer">
+                            <span class="custom-title">Any Note ? [optional]</span>
+                            <input placeholder="Important note" type="text" name="note" id="note-input" class="top-spacer">
+                        </div>
+                    </div>
+                    <div class="bottom-group">
+                        <div class="action-buttons">
+                            <button class="save-btn" id="savebtn">Save</button>
+                        </div>  
+                    </div>
+                </div>
+              </div>
+          <div class="content" id="c2">
+            <div class="tab2-content">
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>

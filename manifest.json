@@ -1,0 +1,24 @@
+{
+    "author" :"ashish pradhan",
+    "manifest_version" : 3,
+    "name" : "Stamp Saver",
+    "version" : "1.0",
+    "description" : "Saving YouTube video at a specific time, and watch later.",
+    "icons": { 
+        "16": "icon/stampsaver-16.png",
+        "48": "icon/stampsaver-48.png",
+       "128": "icon/stampsaver-128.png" },
+    "background": {
+        "service_worker": "background.js"
+      },
+    "action" : {
+        "default_popup": "app-popup/popup.html"
+    },
+    "content_scripts" : [
+        {
+            "matches":["https://*.youtube.com/*"],
+            "js" : ["content.js"]
+        }
+    ],
+    "permissions" : ["activeTab", "storage", "tabs", "contextMenus","declarativeContent"]
+}
