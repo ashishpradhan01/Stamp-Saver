@@ -14,9 +14,9 @@ chrome.runtime.onInstalled.addListener(() => {
     });
   });
 
-  // When someone uninstall my extension
-  chrome.runtime.onInstalled.addListener(details => {
-    if (details.reason === chrome.runtime.OnInstalledReason.INSTALL) {
-      chrome.runtime.setUninstallURL('https://forms.gle/TktBmeGBqRdUgJGL7');
-    }
-  });
+// When someone uninstall this extension
+chrome.runtime.onInstalled.addListener(details => {
+  if (details.reason === chrome.runtime.OnInstalledReason.INSTALL) {
+    chrome.runtime.setUninstallURL('https://forms.gle/TktBmeGBqRdUgJGL7');
+  }
+});

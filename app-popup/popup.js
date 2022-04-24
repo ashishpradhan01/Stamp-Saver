@@ -1,16 +1,16 @@
 var db_key = "itemdbkey"
-var video_id = ""
 var video_title = document.getElementById("v_title")
 var video_length = document.getElementById("v_length")
 var video_date = document.getElementById("v_date")
 var video_stamp = document.getElementById("v_stamp")
 var video_image = document.getElementById("v_image")
+var tab2 = document.getElementById("tab2")
+var note_input = document.getElementById("note-input")
+
 var tab1 = document.getElementsByClassName("tab1-content")[0]
 var loading = document.getElementsByClassName("loading-data")[0]
 var loading_error = document.getElementsByClassName("loading-error")[0]
-var note_input = document.getElementById("note-input")
 var tab2_content = document.getElementsByClassName("tab2-content")[0]
-
 
 
 //buttons
@@ -70,7 +70,6 @@ getData_btn.addEventListener("click", ()=>{
             if(response){
                 video_title.innerText = formatTitle(response.title, 47)
                 video_length.innerText = formatVideoLength(response.length)
-                // video_id = response.id
                 video_date.innerText = getTodayDate()
                 video_stamp.innerText = parseInt(response.stamp).toString().toHHMMSS()
                 video_image.src = `https://i1.ytimg.com/vi/${response.id}/mqdefault.jpg`
@@ -154,7 +153,6 @@ async function createPayload() {
 }
 
 function saveVideoItems(obj){
-    // console.log(`Data in string ${dataInString}`)
     var dataInString = JSON.stringify(obj);
     localStorage.setItem(db_key, dataInString);
     return true
@@ -171,18 +169,12 @@ function deleteVideo(id, stamp, note) {
     var itemsArr = JSON.parse(itemsStorage);
 
     itemsArr.forEach(ele => {
-        var itemIndex = -1
         if(ele.id === id && ele.stamp == stamp && ele.note === note){
-            itemIndex = itemsArr.indexOf(ele)
-            console.log(ele.id + itemIndex)
-        }
-        if(itemIndex>-1) {
-            itemsArr.splice(itemIndex, 1);
+            itemsArr.splice(itemsArr.indexOf(ele), 1);
             saveVideoItems(itemsArr);
         }
     });
     
-
     tab2_content.childNodes.forEach(ele => {
         let v_id = ele.querySelector("#v_id-variable").innerText
         let v_stamp = ele.querySelector("#v_stamp-variable").innerText
@@ -198,36 +190,32 @@ function fetchItemsFromDb() {
     try {
         var itemsStorage = localStorage.getItem(db_key);
         var itemsArr = JSON.parse(itemsStorage);
-        console.log(itemsArr)
-        // console.log(itemsArr[0].date)
+        itemsArr.reverse().forEach(item => {
+            newItemHTML += createItemView(
+                item.id,
+                item.title,
+                item.length,
+                item.note,
+                item.stamp,
+                item.date
+            )
+        });
+        tab2_content.innerHTML = newItemHTML
 
-    itemsArr.reverse().forEach(item => {
-        newItemHTML += createItemView(
-            item.id,
-            item.title,
-            item.length,
-            item.note,
-            item.stamp,
-            item.date
-        )
-    });
-    tab2_content.innerHTML = newItemHTML
+        tab2_content.childNodes.forEach(ele => {
+            let v_id = ele.querySelector("#v_id-variable").innerText
+            let v_stamp = ele.querySelector("#v_stamp-variable").innerText
+            let v_note = ele.querySelector("#v_note-variable").innerText
+            ele.querySelector("#watchbtn").addEventListener('click',()=>{
+                watchVideo(v_id, v_stamp)
+            })
+            ele.querySelector("#deletebtn").addEventListener('click',()=>{
+                deleteVideo(v_id, v_stamp, v_note)
+                console.log(`delete :: ${v_id}`)
+            })
 
-    tab2_content.childNodes.forEach(ele => {
-        let v_id = ele.querySelector("#v_id-variable").innerText
-        let v_stamp = ele.querySelector("#v_stamp-variable").innerText
-        let v_note = ele.querySelector("#v_note-variable").innerText
-        ele.querySelector("#watchbtn").addEventListener('click',()=>{
-            watchVideo(v_id, v_stamp)
-            // console.log(`watch :: ${v_id}`)
         })
-        ele.querySelector("#deletebtn").addEventListener('click',()=>{
-            deleteVideo(v_id, v_stamp, v_note)
-            console.log(`delete :: ${v_id}`)
-        })
-
-    })
-    return true
+        return true
     }
     catch(e) {
         console.log(`[ERROR]: ${e}`)
@@ -235,7 +223,6 @@ function fetchItemsFromDb() {
     }
 }
   
-
 save_btn.addEventListener("click", async ()=>{
     try {
         var itemsStorage = localStorage.getItem(db_key);
@@ -244,7 +231,7 @@ save_btn.addEventListener("click", async ()=>{
             createPayload().then((result)=>{
                 console.log(`result: ${result}`) 
                 itemsArr.push(result)}, 
-                (err)=>console.log("Failed To create payload"))
+                (err)=>console.log(`[ERROR]: ${err}`))
             await delay(1)
             saveVideoItems(itemsArr)
         }
@@ -253,7 +240,7 @@ save_btn.addEventListener("click", async ()=>{
             createPayload().then((result)=>{
                 console.log(`result: ${result}`) 
                 itemsArr.push(result)},
-                 (err)=>console.log("Failed To create payload"))
+                 (err)=>console.log(`[ERROR]: ${err}`))
             await delay(1)
             saveVideoItems(itemsArr)
         }
@@ -269,7 +256,7 @@ save_btn.addEventListener("click", async ()=>{
 });
 
 
-var tab2 = document.getElementById("tab2")
+
 
 tab2.onclick = ()=>{fetchItemsFromDb()}
 
