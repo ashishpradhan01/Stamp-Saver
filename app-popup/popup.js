@@ -92,7 +92,7 @@ function createItemView(id, title, length, note, stamp, date) {
     <span id="v_stamp-variable">${stamp}</span>
     <span id="v_note-variable">${note}</span>
     <div class="item-img">
-        <img src="https://i1.ytimg.com/vi/${id}/mqdefault.jpg"/>
+        <img src="https://i1.ytimg.com/vi/${id}/mqdefault.jpg" draggable="false"/>
     </div>
     <div class="item-info">
         <div class="video-title">
